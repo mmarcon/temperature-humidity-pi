@@ -1,0 +1,3 @@
+gpiozero
+adafruit-circuitpython-charlcd
+adafruit-circuitpython-dht
