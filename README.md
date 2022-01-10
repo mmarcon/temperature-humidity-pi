@@ -11,5 +11,5 @@ source .venv/bin/activate
 ```shell
 sudo apt-get install python3-dev python3-pip
 sudo python3 -m pip install --upgrade pip setuptools wheel
-pip3 install -r requirements.txt
+CFLAGS="-fcommon" pip3 install -r requirements.txt
 ```

@@ -1,5 +1,4 @@
 from __future__ import annotations
-import board
 import Adafruit_DHT
 from typing import Union
 import threading
