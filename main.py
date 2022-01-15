@@ -26,7 +26,7 @@ def main():
 
     dht = DHT(lambda sensor_data: mdb.insert_one({
         "created_at": {
-            { "$date": { "$numberLong":  str(round(time.time() * 1000)) } }
+            "$date": { "$numberLong":  str(round(time.time() * 1000)) }
         },
         "metadata": {
             device_id: device_id
