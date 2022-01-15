@@ -1,2 +1,3 @@
-Adafruit_DHT
 adafruit-circuitpython-dht
+requests
+python-dotenv
