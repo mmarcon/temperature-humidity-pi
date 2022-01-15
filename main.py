@@ -29,7 +29,7 @@ def main():
             "$date": { "$numberLong":  str(round(time.time() * 1000)) }
         },
         "metadata": {
-            device_id: device_id
+            "device_id": device_id
         },
         "temperature": sensor_data['temperature'],
         "humidity": sensor_data['humidity']
