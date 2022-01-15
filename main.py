@@ -6,7 +6,7 @@ import logging
 import signal
 import sys
 from dotenv import load_dotenv
-import datetime
+from datetime import datetime
 
 load_dotenv()
 
@@ -29,8 +29,8 @@ def main():
         "metadata": {
             device_id: device_id
         },
-        "temperature": sensor_data.temperature,
-        "humidity": sensor_data.humidity
+        "temperature": sensor_data['temperature'],
+        "humidity": sensor_data['humidity']
     }))
     dht.start()
 
