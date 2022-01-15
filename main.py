@@ -33,7 +33,7 @@ def main():
         },
         "temperature": sensor_data['temperature'],
         "humidity": sensor_data['humidity']
-    }))
+    }), delay=30)
     dht.start()
 
     # Terminate things gracefully
