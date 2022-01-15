@@ -1,8 +1,8 @@
 import adafruit_dht
-from board import D7
+from board import D4
 import time
 
-dhtDevice = adafruit_dht.DHT22(D7)
+dhtDevice = adafruit_dht.DHT11(D4)
 while True:
   try:
       # Print the values to the serial port
@@ -24,4 +24,4 @@ while True:
       dhtDevice.exit()
       raise error
   
-  time.sleep(2.0)
+  time.sleep(5.0)

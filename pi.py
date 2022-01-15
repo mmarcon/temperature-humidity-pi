@@ -1,5 +1,6 @@
 from __future__ import annotations
-import Adafruit_DHT
+import board
+import adafruit_dht
 from typing import Union
 import threading
 from typing import Callable
@@ -9,8 +10,7 @@ import logging
 class DHT(threading.Thread):
     def __init__(self, notify: Callable[[dict]], delay=10.0, retry_delay=2.0) -> DHT:
         threading.Thread.__init__(self)
-        self.dht_device = Adafruit_DHT.DHT11
-        self.dht_pin = 4
+        self.dht_device = adafruit_dht.DHT11(board.D4)
         self.notify = notify
         self.delay = delay
         self.retry_delay = retry_delay
@@ -20,7 +20,8 @@ class DHT(threading.Thread):
     def poll(self) -> Union[dict, None]:
         self.logger.info('Polling sensor')
         try:
-            humidity, temperature = Adafruit_DHT.read(self.dht_device, self.dht_pin)
+            temperature = self.dht_device.temperature
+            humidity = self.dht_device.humidity
             self.logger.info('Temperature=%d, Humidity=%d', temperature, humidity)
             return {
                 'temperature': temperature,
