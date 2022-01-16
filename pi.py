@@ -50,13 +50,12 @@ class DHT(threading.Thread):
             time.sleep(self.delay)
 
 class StartStop(object):
-    start_pin = board.D29
-    stop_pin = board.D31
+
     def __init__(self, start: Callable, stop: Callable) -> StartStop:
-        GPIO.setup(self.start_pin, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(self.stop_pin, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.add_event_detect(self.start_pin, GPIO.RISING, callback=start)
-        GPIO.add_event_detect(self.stop_pin, GPIO.RISING, callback=stop)
+        GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(6, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(5, GPIO.RISING, callback=start)
+        GPIO.add_event_detect(6, GPIO.RISING, callback=stop)
     
     def cleanup(self):
         GPIO.cleanup()

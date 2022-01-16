@@ -35,7 +35,7 @@ def main():
         "humidity": sensor_data['humidity']
     }), delay=30)
 
-    start_stop = StartStop(lambda: mdb.insert_one({
+    start_stop = StartStop(lambda channel: mdb.insert_one({
         "created_at": {
             "$date": { "$numberLong":  str(round(time.time() * 1000)) }
         },
@@ -43,7 +43,7 @@ def main():
             "device_id": device_id
         },
         "event": "SHOWER_STARTED"
-    }), lambda:  mdb.insert_one({
+    }), lambda channel:  mdb.insert_one({
         "created_at": {
             "$date": { "$numberLong":  str(round(time.time() * 1000)) }
         },
