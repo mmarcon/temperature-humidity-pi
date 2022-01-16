@@ -24,6 +24,16 @@ def main():
     mdb.default_db = 'temperature_humidity_pi'
     mdb.default_collection = 'sensor_data'
 
+    mdb.insert_one({
+        "created_at": {
+            "$date": { "$numberLong":  str(round(time.time() * 1000)) }
+        },
+        "metadata": {
+            "device_id": device_id
+        },
+        "event": "SWITCHED_ON"
+    })
+
     dht = DHT(lambda sensor_data: mdb.insert_one({
         "created_at": {
             "$date": { "$numberLong":  str(round(time.time() * 1000)) }
