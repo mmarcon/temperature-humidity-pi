@@ -1,6 +1,6 @@
 from __future__ import annotations
 import os
-from pi import DHT
+from pi import DHT, StartStop
 from data_api import MongoDBDataAPI
 import logging
 import signal
@@ -34,12 +34,32 @@ def main():
         "temperature": sensor_data['temperature'],
         "humidity": sensor_data['humidity']
     }), delay=30)
+
+    start_stop = StartStop(lambda: mdb.insert_one({
+        "created_at": {
+            "$date": { "$numberLong":  str(round(time.time() * 1000)) }
+        },
+        "metadata": {
+            "device_id": device_id
+        },
+        "event": "SHOWER_STARTED"
+    }), lambda:  mdb.insert_one({
+        "created_at": {
+            "$date": { "$numberLong":  str(round(time.time() * 1000)) }
+        },
+        "metadata": {
+            "device_id": device_id
+        },
+        "event": "SHOWER_STOPPED"
+    }))
+
     dht.start()
 
     # Terminate things gracefully
     def ctrl_c_handler(sig, frame):
         logger.info('Ctrl-C detected')
         dht.stop()
+        start_stop.cleanup()
         sys.exit(0)
 
     signal.signal(signal.SIGINT, ctrl_c_handler)

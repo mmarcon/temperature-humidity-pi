@@ -6,6 +6,7 @@ import threading
 from typing import Callable
 import time
 import logging
+import RPi.GPIO as GPIO
 
 class DHT(threading.Thread):
     def __init__(self, notify: Callable[[dict]], delay=10.0, retry_delay=2.0) -> DHT:
@@ -47,3 +48,9 @@ class DHT(threading.Thread):
                 continue
             self.notify(sensor_data)
             time.sleep(self.delay)
+class StartStop(object):
+    def __init__(self, start: Callable, stop: Callable) -> Button:
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(5, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(6, pull_up_down=GPIO.PUD_DOWN)
