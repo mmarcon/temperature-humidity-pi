@@ -38,7 +38,7 @@ class DHT(threading.Thread):
 
     def stop(self):
         self.__stopped = True
-    
+
     def run(self):
         self.logger.debug('Thread started')
         while not self.__stopped:
@@ -48,9 +48,15 @@ class DHT(threading.Thread):
                 continue
             self.notify(sensor_data)
             time.sleep(self.delay)
+
 class StartStop(object):
-    def __init__(self, start: Callable, stop: Callable) -> Button:
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(5, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(6, pull_up_down=GPIO.PUD_DOWN)
+    start_pin = board.D29
+    stop_pin = board.D31
+    def __init__(self, start: Callable, stop: Callable) -> StartStop:
+        GPIO.setup(self.start_pin, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.stop_pin, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(self.start_pin, GPIO.RISING, callback=start)
+        GPIO.add_event_detect(self.stop_pin, GPIO.RISING, callback=stop)
+    
+    def cleanup(self):
+        GPIO.cleanup()
